@@ -6,12 +6,12 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 public class OrderEventConsumer {
     @Incoming("order-events-in")
     public void consume(OrderCreatedEvent event) {
-
         System.out.println(
                 "Inventory received order: " + event.orderId()
-                        + ", product: " + event.product()
-                        + ", quantity: " + event.quantity()
         );
+
+        throw new RuntimeException("Inventory processing failed");
+
     }
 
 }
