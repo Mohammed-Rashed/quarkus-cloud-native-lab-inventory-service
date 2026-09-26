@@ -7,10 +7,11 @@ public class OrderEventConsumer {
     @Incoming("order-events-in")
     public void consume(OrderCreatedEvent event) {
         System.out.println(
-                "Inventory received order: " + event.orderId()
+                "Inventory received event: " + event.eventId()
+                        + " for order: " + event.orderId()
         );
 
-        throw new RuntimeException("Inventory processing failed");
+//        throw new RuntimeException("Inventory processing failed");
 
     }
 
