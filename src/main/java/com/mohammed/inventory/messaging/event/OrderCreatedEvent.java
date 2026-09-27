@@ -10,6 +10,7 @@ public record OrderCreatedEvent(
         int version,
         Long orderId,
         String product,
+        Long productId,
         int quantity,
         String status
 ) {

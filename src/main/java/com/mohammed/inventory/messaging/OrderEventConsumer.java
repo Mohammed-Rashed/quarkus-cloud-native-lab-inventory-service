@@ -1,14 +1,20 @@
 package com.mohammed.inventory.messaging;
 
 import com.mohammed.inventory.messaging.event.OrderCreatedEvent;
+import com.mohammed.inventory.repository.InventoryRepository;
 import com.mohammed.inventory.repository.ProcessedEventRepository;
+import com.mohammed.inventory.service.InventoryService;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 public class OrderEventConsumer {
     private final ProcessedEventRepository processedEventRepository;
-    public OrderEventConsumer(ProcessedEventRepository processedEventRepository) {
+    private final InventoryService inventoryService;
+    public OrderEventConsumer(ProcessedEventRepository  processedEventRepository,
+                              InventoryService inventoryService
+            ) {
         this.processedEventRepository = processedEventRepository;
+        this.inventoryService = inventoryService;
     }
     @Incoming("order-events-in")
     @Transactional
@@ -25,6 +31,9 @@ public class OrderEventConsumer {
                 "Processing new event: " + event.eventId()
                         + " for order: " + event.orderId()
         );
+
+        inventoryService.reserveStock(event.productId(), event.quantity());
+
         processedEventRepository.markAsProcessed(event.eventId());
 
         System.out.println(

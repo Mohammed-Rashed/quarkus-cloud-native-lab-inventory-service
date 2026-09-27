@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Optional;
 
 @ApplicationScoped
-public class InventoryRepository implements PanacheRepository {
+public class InventoryRepository implements PanacheRepository<InventoryEntity> {
     public Optional<InventoryEntity> findByProductId(Long productId) {
         return find("productId", productId).firstResultOptional();
     }
