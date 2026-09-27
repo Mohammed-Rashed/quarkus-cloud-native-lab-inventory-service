@@ -2,6 +2,7 @@ package com.mohammed.inventory.messaging;
 
 import com.mohammed.inventory.messaging.event.OrderCreatedEvent;
 import com.mohammed.inventory.repository.ProcessedEventRepository;
+import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 public class OrderEventConsumer {
@@ -10,6 +11,7 @@ public class OrderEventConsumer {
         this.processedEventRepository = processedEventRepository;
     }
     @Incoming("order-events-in")
+    @Transactional
     public void consume(OrderCreatedEvent event) {
 
         if (processedEventRepository.isProcessed(event.eventId())) {
