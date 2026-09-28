@@ -1,5 +1,6 @@
 package com.mohammed.inventory.service;
 
+import com.mohammed.exception.InsufficientStockException;
 import com.mohammed.inventory.entity.InventoryEntity;
 import com.mohammed.inventory.repository.InventoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,7 +21,8 @@ public class InventoryService {
                 );
 
         if (inventory.availableQuantity < quantity) {
-            throw new RuntimeException("Insufficient stock");
+            throw new InsufficientStockException(productId);
+
         }
 
         inventory.availableQuantity -= quantity;
