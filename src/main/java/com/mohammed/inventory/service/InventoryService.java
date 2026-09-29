@@ -28,4 +28,18 @@ public class InventoryService {
         inventory.availableQuantity -= quantity;
         inventory.reservedQuantity += quantity;
     }
+    @Transactional
+    public void releaseStock(Long productId, int quantity) {
+
+        InventoryEntity inventory = inventoryRepository
+                .findByProductId(productId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Product not found in inventory"
+                        )
+                );
+
+        inventory.availableQuantity += quantity;
+//        inventory.reservedQuantity -= quantity;
+    }
 }

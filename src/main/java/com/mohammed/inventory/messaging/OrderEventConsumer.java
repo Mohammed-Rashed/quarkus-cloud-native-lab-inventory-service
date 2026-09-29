@@ -61,9 +61,10 @@ public class OrderEventConsumer {
             );
 
             inventoryEventProducer.sendStockReserved(stockReservedEvent);
-
+            System.out.println(
+                    "stockReservedEvent: " + event.orderId()
+            );
         } catch (InsufficientStockException e) {
-            String stockType="STOCK_REJECTED";
 
             StockRejectedEvent stockRejectedEvent = new StockRejectedEvent(
                     UUID.randomUUID(),
@@ -76,7 +77,9 @@ public class OrderEventConsumer {
                     e.getMessage()
             );
             inventoryEventProducer.sendStockRejected(stockRejectedEvent);
-
+            System.out.println(
+                    "sendStockRejected: " + event.orderId()
+            );
         }
         processedEventRepository.markAsProcessed(event.eventId());
 
